@@ -1,6 +1,9 @@
 <?php
+Route::get('/', 'Frontend\HomeController@products')->name('products.home');
+Route::get('/cart/new/{product}', 'Frontend\HomeController@addToCart')->name('products.add_to_cart');
+Route::get('/cart/empty_cart', 'Frontend\HomeController@empty_cart')->name('cart.empty_cart');
+Route::get('/cart/delete/{product}', 'Frontend\HomeController@delete_item_from_cart')->name('cart.delete_item_from_cart');
 
-Route::view('/', 'welcome');
 Auth::routes();
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
@@ -34,7 +37,10 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
 });
+
+
 Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['auth']], function () {
+
     Route::get('/home', 'HomeController@index')->name('home');
 
     // Permissions
