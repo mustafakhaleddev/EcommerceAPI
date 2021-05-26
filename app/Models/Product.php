@@ -11,11 +11,10 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Product extends Model implements HasMedia
+class Product extends Model
 {
     use SoftDeletes;
     use MultiTenantModelTrait;
-    use InteractsWithMedia;
     use HasFactory;
 
     public $table = 'products';
@@ -36,11 +35,6 @@ class Product extends Model implements HasMedia
         'created_by_id',
     ];
 
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this->addMediaConversion('thumb')->fit('crop', 50, 50);
-        $this->addMediaConversion('preview')->fit('crop', 120, 120);
-    }
 
     public function created_by()
     {
@@ -50,5 +44,10 @@ class Product extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function merchant()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 }

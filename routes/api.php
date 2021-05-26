@@ -14,3 +14,10 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::post('products/media', 'ProductsApiController@storeMedia')->name('products.storeMedia');
     Route::apiResource('products', 'ProductsApiController');
 });
+
+
+Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1'], function () {
+
+    // Products
+    Route::get('products', 'ProductsApiController@index');
+});
